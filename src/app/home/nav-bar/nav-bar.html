@@ -1,4 +1,4 @@
-<nav class="bg-gray-800 shadow-lg">
+<nav class="bg-gray-800">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       
@@ -13,7 +13,7 @@
       <div class="hidden md:block">
         <ul class="ml-10 flex items-baseline space-x-4">
           
-          <!-- Common -->
+          <!-- Common Links (always visible) -->
           <li>
             <a 
               routerLink="/home" 
@@ -24,31 +24,56 @@
               Home
             </a>
           </li>
-
-          <!-- Student-only -->
-          <ng-container *ngIf="isStudent()">
-            <li><a routerLink="/resume" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Resume</a></li>
-            <li><a routerLink="/profile" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a></li>
-            <li><a routerLink="/companies" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Companies</a></li>
-            <li><a routerLink="/my-applications" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Applications</a></li>
-          </ng-container>
-          
-          <!-- Admin-only -->
-          <ng-container *ngIf="isAdmin()">
-            <li><a routerLink="/students" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Students</a></li>
-            <li><a routerLink="/companies" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Companies</a></li>
-            <li><a routerLink="/overview" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Overview</a></li>
-          </ng-container>
-
-          <!-- Logout -->
           <li>
-            <button 
-              (click)="logout()" 
-              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition duration-300"
+            <a 
+              routerLink="/about-us" 
+              routerLinkActive="bg-gray-900 text-white" 
+              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             >
-              Logout
-            </button>
+              About Us
+            </a>
           </li>
+
+          <!-- Links visible only when logged in -->
+          <ng-container *ngIf="isLoggedIn()">
+            <!-- Student-only -->
+            <ng-container *ngIf="isStudent()">
+              <li><a routerLink="/resume" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Resume</a></li>
+              <li><a routerLink="/profile" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a></li>
+              <li><a routerLink="/companies" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Companies</a></li>
+              <li><a routerLink="/my-applications" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Applications</a></li>
+            </ng-container>
+            
+            <!-- Admin-only -->
+            <ng-container *ngIf="isAdmin()">
+              <li><a routerLink="/students" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Students</a></li>
+              <li><a routerLink="/companies" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Companies</a></li>
+              <li><a routerLink="/overview" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Overview</a></li>
+            </ng-container>
+
+            <!-- Logout Button (visible when logged in) -->
+            <li>
+              <button 
+                (click)="logout()" 
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition duration-300"
+              >
+                Logout
+              </button>
+            </li>
+          </ng-container>
+
+          <!-- Login Button (visible when not logged in) -->
+          <ng-container *ngIf="!isLoggedIn()">
+            <li>
+              <a 
+                routerLink="/login" 
+                routerLinkActive="bg-gray-900 text-white" 
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300"
+              >
+                Login
+              </a>
+            </li>
+          </ng-container>
         </ul>
       </div>
 
@@ -71,7 +96,7 @@
   <div *ngIf="isMobileMenuOpen" class="md:hidden">
     <ul class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       
-      <!-- Common -->
+      <!-- Common Links (always visible) -->
       <li>
         <a 
           routerLink="/home" 
@@ -82,31 +107,56 @@
           Home
         </a>
       </li>
-
-      <!-- Student-only -->
-      <ng-container *ngIf="isStudent()">
-        <li><a routerLink="/resume" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Resume</a></li>
-        <li><a routerLink="/profile" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Profile</a></li>
-        <li><a routerLink="/companies" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Companies</a></li>
-        <li><a routerLink="/my-applications" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Applications</a></li>
-      </ng-container>
-
-      <!-- Admin-only -->
-      <ng-container *ngIf="isAdmin()">
-        <li><a routerLink="/students" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Students</a></li>
-        <li><a routerLink="/companies" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Companies</a></li>
-        <li><a routerLink="/overview" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Overview</a></li>
-      </ng-container>
-
-      <!-- Logout -->
       <li>
-        <button 
-          (click)="logout()" 
-          class="w-full text-left bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded-md transition duration-300 mt-2"
+        <a 
+          routerLink="/about-us" 
+          routerLinkActive="bg-gray-900 text-white" 
+          class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
         >
-          Logout
-        </button>
+          About Us
+        </a>
       </li>
+
+      <!-- Links visible only when logged in -->
+      <ng-container *ngIf="isLoggedIn()">
+        <!-- Student-only -->
+        <ng-container *ngIf="isStudent()">
+          <li><a routerLink="/resume" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Resume</a></li>
+          <li><a routerLink="/profile" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Profile</a></li>
+          <li><a routerLink="/companies" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Companies</a></li>
+          <li><a routerLink="/my-applications" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Applications</a></li>
+        </ng-container>
+
+        <!-- Admin-only -->
+        <ng-container *ngIf="isAdmin()">
+          <li><a routerLink="/students" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Students</a></li>
+          <li><a routerLink="/companies" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Companies</a></li>
+          <li><a routerLink="/overview" routerLinkActive="bg-gray-900 text-white" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Overview</a></li>
+        </ng-container>
+
+        <!-- Logout Button (visible when logged in) -->
+        <li>
+          <button 
+            (click)="logout()" 
+            class="w-full text-left bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded-md transition duration-300 mt-2"
+          >
+            Logout
+          </button>
+        </li>
+      </ng-container>
+
+      <!-- Login Button (visible when not logged in) -->
+      <ng-container *ngIf="!isLoggedIn()">
+        <li>
+          <a 
+            routerLink="/login" 
+            routerLinkActive="bg-gray-900 text-white" 
+            class="w-full text-left bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded-md transition duration-300 mt-2"
+          >
+            Login
+          </a>
+        </li>
+      </ng-container>
     </ul>
   </div>
 </nav>
