@@ -1,0 +1,36 @@
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+  <div class="bg-white border border-gray-200 p-8 max-w-screen-xl mx-auto">
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Companies</h1>
+      <p class="text-lg text-gray-600">Explore companies offering placement opportunities</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let company of companies" class="bg-gray-50 border border-gray-200 p-6 transition-shadow duration-300">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ company.name }}</h3>
+        <p class="text-gray-600 mb-1"><strong>Industry:</strong> {{ company.industry }}</p>
+        <p class="text-gray-600 mb-3"><strong>Location:</strong> {{ company.location }}</p>
+        <p class="text-gray-700 leading-relaxed mb-4">{{ company.description }}</p>
+        <div class="mt-4">
+          <h4 class="text-lg font-semibold text-gray-700 mb-2">Job Openings:</h4>
+          <div class="flex flex-wrap gap-2">
+            <span *ngFor="let job of company.jobs" class="bg-gray-200 text-gray-800 text-sm font-medium px-3 py-1 rounded-full">{{ job }}</span>
+          </div>
+        </div>
+        <div class="mt-6 text-right">
+          <button
+            (click)="applyForJob(company)"
+            [disabled]="company.isApplied"
+            [ngClass]="{
+              'bg-blue-600 hover:bg-blue-700 text-white': !company.isApplied,
+              'bg-gray-400 text-gray-700 cursor-not-allowed': company.isApplied
+            }"
+            class="font-bold py-2 px-4 rounded-md transition duration-300"
+          >
+            {{ company.isApplied ? 'Applied' : 'Apply Now' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

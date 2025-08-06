@@ -10,8 +10,8 @@ import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class Dashboard {
-  userRole: string;
+export class Dashboard implements OnInit { // Add OnInit
+  userRole: string | null = null; // Initialize to null
   contactForm: FormGroup;
   isFormVisible = true;
 
@@ -33,12 +33,20 @@ export class Dashboard {
   };
 
   constructor(private authService: AuthService, private fb: FormBuilder) {
-    this.userRole = this.authService.getUserRole();
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       message: ['', Validators.required]
     });
+  }
+
+  ngOnInit(): void {
+    this.userRole = this.authService.getUserRole();
+    // Subscribe to user role changes if needed, though for a simple dashboard,
+    // initial load might be sufficient.
+    // this.authService.currentUser.subscribe(user => {
+    //   this.userRole = user ? user.role : null;
+    // });
   }
 
   onSubmit() {
@@ -53,13 +61,33 @@ export class Dashboard {
     this.isFormVisible = !this.isFormVisible;
   }
 
+  executeAdminAction(action: string) {
+    console.log(`Admin action: ${action} executed.`);
+    // Implement specific logic for each action here
+    alert(`Admin action: ${action} executed.`);
+  }
+
   adminData = [
-    { metric: 'Total Users', value: '1,250' },
-    { metric: 'Active Users', value: '980' },
-    { metric: 'Revenue', value: '$50,000' },
-    { metric: 'Growth', value: '15%' },
-    { metric: 'New Signups', value: '200' },
-    { metric: 'Churn Rate', value: '2%' }
+    { metric: 'Total Users', value: '1,250', icon: '👥', description: 'Overall user count' },
+    { metric: 'Active Jobs', value: '345', icon: '💼', description: 'Currently open positions' },
+    { metric: 'Applications', value: '8,760', icon: '📝', description: 'Total applications received' },
+    { metric: 'Companies', value: '120', icon: '🏢', description: 'Registered companies' },
+    { metric: 'New Signups', value: '200', icon: '➕', description: 'Users joined this month' },
+    { metric: 'Placements', value: '95%', icon: '✅', description: 'Overall placement rate' }
+  ];
+
+  recentActivities = [
+    { id: 1, type: 'User Registered', description: 'New student John Doe registered.', time: '2 hours ago' },
+    { id: 2, type: 'Job Posted', description: 'Software Engineer role posted by Google.', time: '1 day ago' },
+    { id: 3, type: 'Application Update', description: 'Jane Smith applied for Frontend Developer at Microsoft.', time: '2 days ago' },
+    { id: 4, type: 'Company Added', description: 'New company "Tech Solutions" added.', time: '3 days ago' }
+  ];
+
+  quickActions = [
+    { label: 'Add New Job', icon: '➕', action: 'addNewJob' },
+    { label: 'Manage Users', icon: '⚙️', action: 'manageUsers' },
+    { label: 'View Reports', icon: '📊', action: 'viewReports' },
+    { label: 'Send Announcement', icon: '📢', action: 'sendAnnouncement' }
   ];
 
   userData = [
