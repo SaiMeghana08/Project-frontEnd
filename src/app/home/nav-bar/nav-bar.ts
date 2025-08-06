@@ -1,8 +1,8 @@
-
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,26 +14,18 @@ import { CommonModule } from '@angular/common';
 export class NavBar {
   isMobileMenuOpen = false;
 
+  constructor(private authService: AuthService) {}
+
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
-   // Hardcoded user simulation
-  user = {
-    id: 2,
-    username: 'charlie',
-    role: 'STUDENT' 
-  };
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   isAdmin(): boolean {
-    return this.user.role === 'ADMIN';
+    return this.authService.isAdmin();
   }
 
   isStudent(): boolean {
-    return this.user.role === 'STUDENT';
+    return this.authService.isStudent();
   }
 
   logout(): void {
