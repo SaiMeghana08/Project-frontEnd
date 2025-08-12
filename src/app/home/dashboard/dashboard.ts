@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
+import { ApplicationService } from '../../services/application.service'; // Import ApplicationService
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,7 @@ export class Dashboard implements OnInit { // Add OnInit
   userRole: string | null = null; // Initialize to null
   contactForm: FormGroup;
   isFormVisible = true;
+  applicationCount: number = 0; // Property to store the application count
 
   // Chart options
   view: [number, number] = [700, 400];
@@ -32,7 +34,11 @@ export class Dashboard implements OnInit { // Add OnInit
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private applicationService: ApplicationService // Inject ApplicationService
+  ) {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -42,11 +48,35 @@ export class Dashboard implements OnInit { // Add OnInit
 
   ngOnInit(): void {
     this.userRole = this.authService.getUserRole();
+    this.fetchApplicationCount(); // Call the new method to fetch application count
     // Subscribe to user role changes if needed, though for a simple dashboard,
     // initial load might be sufficient.
     // this.authService.currentUser.subscribe(user => {
     //   this.userRole = user ? user.role : null;
     // });
+  }
+
+  fetchApplicationCount(): void {
+    // Replace with actual student ID, perhaps from authService or a user profile service
+    const studentId = 1; // Example student ID
+    this.applicationService.getApplicationsByStudentId(studentId).subscribe(
+      (applications) => {
+        this.applicationCount = applications.length;
+        // Update the 'Applications Sent' quick stat with the fetched count
+        const applicationsSentStat = this.quickStats.find(stat => stat.label === 'Applications Sent');
+        if (applicationsSentStat) {
+          applicationsSentStat.value = this.applicationCount.toString();
+        }
+      },
+      (error) => {
+        console.error('Error fetching applications:', error);
+        this.applicationCount = 0; // Set to 0 on error
+        const applicationsSentStat = this.quickStats.find(stat => stat.label === 'Applications Sent');
+        if (applicationsSentStat) {
+          applicationsSentStat.value = '0'; // Set to '0' on error
+        }
+      }
+    );
   }
 
   onSubmit() {
@@ -118,9 +148,9 @@ export class Dashboard implements OnInit { // Add OnInit
   ];
 
   quickStats = [
-    { label: 'Applications Sent', value: 12 },
-    { label: 'Interviews Scheduled', value: 3 },
-    { label: 'Offers Received', value: 1 }
+    { label: 'Applications Sent', value: '12' },
+    { label: 'Interviews Scheduled', value: '3' },
+    { label: 'Offers Received', value: '1' }
   ];
 
   placementAnalytics = [

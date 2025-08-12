@@ -65,9 +65,17 @@
       <div class="lg:col-span-2 space-y-8">
         <!-- Quick Stats -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div *ngFor="let stat of quickStats" class="bg-white p-6 rounded-lg border border-gray-200 text-center">
-            <p class="text-4xl font-bold text-blue-600">{{ stat.value }}</p>
-            <p class="text-lg font-semibold text-gray-700">{{ stat.label }}</p>
+          <div class="bg-white p-6 rounded-lg border border-gray-200 text-center">
+            <p class="text-4xl font-bold text-blue-600">{{ applicationCount }}</p>
+            <p class="text-lg font-semibold text-gray-700">Applications Sent</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg border border-gray-200 text-center">
+            <p class="text-4xl font-bold text-blue-600">{{ quickStats[1].value }}</p>
+            <p class="text-lg font-semibold text-gray-700">{{ quickStats[1].label }}</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg border border-gray-200 text-center">
+            <p class="text-4xl font-bold text-blue-600">{{ quickStats[2].value }}</p>
+            <p class="text-lg font-semibold text-gray-700">{{ quickStats[2].label }}</p>
           </div>
         </div>
 

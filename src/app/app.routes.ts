@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { Dashboard } from './home/dashboard/dashboard';
 import { NavBar } from './home/nav-bar/nav-bar';
-import { AboutUs } from './about-us/about-us';
 import { Resume } from './home/resume/resume';
 import { Profile } from './profile/profile';
 import { Companies } from './companies/companies'; // Import the Companies component
@@ -13,7 +12,6 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'home', component: Dashboard },
     { path: 'nav-bar', component: NavBar},
-    { path: 'about-us', component: AboutUs },
     { path: 'resume', component: Resume },
     { path: 'profile', component: Profile },
     { path: 'companies', component: Companies }, // Add the companies route
